@@ -3,6 +3,7 @@
     {
       "name": "STM32",
       "includePath": [
+        "${workspaceFolder}/**",
         "../arch/arm/arm-v7m/common/include",
         "../arch/arm/arm-v7m/cortex-m4/gcc",
         "../board/Config/TOS_CONFIG",
@@ -19,9 +20,21 @@
       ],
       "defines": [
         "STM32L431xx",
-        "USE_HAL_DRIVER"
+        "UNICODE",
+        "USE_HAL_DRIVER",
+        "_DEBUG",
+        "_UNICODE"
       ],
-      "compilerPath": "C:\\GNU_ARM_TOOL\\7 2018-Q2-UPDATE\\BIN\\ARM-NONE-EABI-GCC.EXE"
+      "intelliSenseMode": "gcc-arm",
+      "compilerPath": "C:\\GNU_ARM_TOOL\\7 2018-Q2-UPDATE\\BIN\\ARM-NONE-EABI-GCC.EXE",
+      "compilerArgs": [
+        "-mcpu=cortex-m4",
+        "-mthumb",
+        "-mfpu=fpv4-sp-d16",
+        "-mfloat-abi=hard"
+      ],
+      "cStandard": "c11",
+      "cppStandard": "c++17"
     }
   ],
   "version": 4

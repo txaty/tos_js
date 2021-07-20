@@ -1,18 +1,37 @@
 {
+    "version": "0.2.0",
     "configurations": [
         {
-            "showDevDebugOutput": true,
-            "cwd": "${workspaceRoot}",
-            "executable": "./build/tos_js.elf",
-            "name": "Debug STM32",
-            "request": "launch",
+            "name": "ARM",
             "type": "cortex-debug",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/tos_js.elf",
+            "executable": "${workspaceFolder}/build/tos_js.elf",
+            "args": [],
+            "stopAtEntry": false,
             "servertype": "openocd",
-            "preLaunchTask": "Build STM",
-            "device": "stlink",
-            "configFiles": [
-                "openocd.cfg"
-            ]
+            "cwd": "${workspaceFolder}",
+            "device": "STM32L431RCT6",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "arm-none-eabi-gdb.exe",
+            "setupCommands": [
+                {
+                    "text": "cd ${workspaceFolder}/build"
+                },
+                {
+                    "text": "file SmartFridge.elf"
+                },
+                {
+                    "text": "target remote localhost:3333"
+                },
+                {
+                    "text": "load"
+                }
+            ],
+            "preLaunchTask": "start",
+            "postDebugTask": "stop"
         }
     ]
 }

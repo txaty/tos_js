@@ -2,49 +2,57 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Build STM",
-			"type": "process",
-			"command": "${command:stm32-for-vscode.build}",
-			"options": {
-				"cwd": "${workspaceRoot}"
-			},
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
-			"problemMatcher": [
-				"$gcc"
-			]
+			"label": "start",
+			"type": "shell",
+			"command": "openocd",
+			"args": [
+				"-f",
+				"interface/stlink.cfg",
+				"-f",
+				"target/stm32l4x.cfg",
+				"-c",
+				"program build/tos_js.elf verify reset exit"
+			],
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": {
+					"regexp": ""
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^",
+					"endsPattern": "Nothing to be done for|arm-none-eabi-objcopy"
+				}
+			}
 		},
 		{
-			"label": "Build Clean STM",
-			"type": "process",
-			"command": "${command:stm32-for-vscode.cleanBuild}",
-			"options": {
-				"cwd": "${workspaceRoot}"
-			},
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
-			"problemMatcher": [
-				"$gcc"
-			]
+			"label": "stop",
+			"command": "echo ${input:terminate}",
+			"type": "shell"
 		},
 		{
-			"label": "Flash STM",
-			"type": "process",
-			"command": "${command:stm32-for-vscode.flash}",
-			"options": {
-				"cwd": "${workspaceRoot}"
-			},
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
-			"problemMatcher": [
-				"$gcc"
-			]
+			"label": "build",
+			"command": "make -j all",
+			"type": "shell",
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": {
+					"regexp": ""
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^",
+					"endsPattern": "Nothing to be done for|arm-none-eabi-objcopy"
+				}
+			}
+		}
+	],
+	"inputs": [
+		{
+			"id": "terminate",
+			"type": "command",
+			"command": "workbench.action.tasks.terminate",
+			"args": "terminateAll"
 		}
 	]
 }
