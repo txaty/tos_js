@@ -3,6 +3,14 @@
     {
       "name": "STM32",
       "includePath": [
+        "../arch/arm/arm-v7m/common/include",
+        "../arch/arm/arm-v7m/cortex-m4/gcc",
+        "../board/Config/TOS_CONFIG",
+        "../kernel/core/include",
+        "../kernel/hal/include",
+        "../kernel/pm/include",
+        "../osal/cmsis_os",
+        "Config/TOS_CONFIG",
         "Drivers/CMSIS/Device/ST/STM32L4xx/Include",
         "Drivers/CMSIS/Include",
         "Drivers/STM32L4xx_HAL_Driver/Inc",

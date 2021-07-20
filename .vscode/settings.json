@@ -1,4 +1,26 @@
 {
     "cortex-debug.armToolchainPath": "C:\\GNU_ARM_TOOL\\7 2018-Q2-UPDATE\\BIN",
-    "cortex-debug.openocdPath": "D:\\CACHE\\OPENOCD-20201228-0.10.0\\BIN\\OPENOCD.EXE"
+    "cortex-debug.openocdPath": "D:\\CACHE\\OPENOCD-20201228-0.10.0\\BIN\\OPENOCD.EXE",
+    "cSpell.words": [
+        "AHBCLK",
+        "GPIO",
+        "HCLK",
+        "LSEDRIVE",
+        "MMBLK",
+        "MMHEAP",
+        "MSIPLL",
+        "MSIRANGE",
+        "PCLK",
+        "PLLM",
+        "PLLN",
+        "PLLP",
+        "PLLQ",
+        "PLLR",
+        "USART",
+        "huart",
+        "pdata"
+    ],
+    "files.associations": {
+        "tos_k.h": "c"
+    }
 }

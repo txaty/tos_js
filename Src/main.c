@@ -24,7 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "cmsis_os.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -38,7 +38,41 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
+//task1
+#define TASK1_STK_SIZE 512
+void task1(void *pdata);
+osThreadDef(task1, osPriorityNormal, 1, TASK1_STK_SIZE);
 
+//task2
+#define TASK2_STK_SIZE 512
+void task2(void *pdata);
+osThreadDef(task2, osPriorityNormal, 1, TASK2_STK_SIZE);
+
+void task1(void *pdata)
+{
+  int count = 1;
+  while (1)
+  {
+    printf("\r\nHello world!\r\n###This is task1 ,count is %d \r\n", count++);
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+    osDelay(2000);
+  }
+}
+void task2(void *pdata)
+{
+  int count = 1;
+  while (1)
+  {
+    printf("\r\nHello TencentOS !\r\n***This is task2 ,count is %d \r\n", count++);
+    osDelay(1000);
+  }
+}
+
+int _write(int fd, char *ptr, int len)
+{
+  (void)HAL_UART_Transmit(&huart2, (uint8_t *)ptr, len, 0xFFFF);
+  return len;
+}
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -88,7 +122,10 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  osKernelInitialize();                  //TOS Tiny kernel initialize
+  osThreadCreate(osThread(task1), NULL); // Create task1
+  osThreadCreate(osThread(task2), NULL); // Create task2
+  osKernelStart();                       //Start TOS Tiny
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -96,7 +133,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -119,7 +156,7 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSE|RCC_OSCILLATORTYPE_MSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSE | RCC_OSCILLATORTYPE_MSI;
   RCC_OscInitStruct.LSEState = RCC_LSE_ON;
   RCC_OscInitStruct.MSIState = RCC_MSI_ON;
   RCC_OscInitStruct.MSICalibrationValue = 0;
@@ -137,8 +174,7 @@ void SystemClock_Config(void)
   }
   /** Initializes the CPU, AHB and APB buses clocks
   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
@@ -184,7 +220,7 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.

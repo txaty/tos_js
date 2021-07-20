@@ -20,11 +20,11 @@ TARGET = tos_js
 # building variables
 ######################################
 # debug build?
-DEBUG = 1
+DEBUG = 0
 # optimization
-OPT = -Og
+OPT = -O3
 
-TOP_DIR = ../../
+TOP_DIR = ../
 #######################################
 # paths
 #######################################
@@ -62,13 +62,26 @@ Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.c \
 Src/system_stm32l4xx.c
 
-ARCH_SRC = \
-	${wildcard $(TOP_DIR)/arch/arm/arm}
+ARCH_SRC =  \
+${wildcard $(TOP_DIR)/arch/arm/arm-v7m/cortex-m4/gcc/*.c} \
+${wildcard $(TOP_DIR)/arch/arm/arm-v7m/common/*.c}
+C_SOURCES += $(ARCH_SRC)
+
+KERNEL_SRC =  \
+${wildcard $(TOP_DIR)/kernel/core/*.c} \
+${wildcard $(TOP_DIR)/kernel/hal/*.c}
+C_SOURCES += $(KERNEL_SRC)
+
+CMSIS_SRC =  \
+${wildcard $(TOP_DIR)/osal/cmsis_os/*.c}
+C_SOURCES += $(CMSIS_SRC)
 
 # ASM sources
 ASM_SOURCES =  \
 startup_stm32l431xx.s
 
+ASM_SOURCES_S =  \
+$(TOP_DIR)/arch/arm/arm-v7m/cortex-m4/gcc/port_s.S
 
 #######################################
 # binaries
@@ -119,13 +132,25 @@ C_DEFS =  \
 AS_INCLUDES = 
 
 # C includes
-C_INCLUDES =  \
+C_INCLUDES = \
 -IInc \
 -IDrivers/STM32L4xx_HAL_Driver/Inc \
 -IDrivers/STM32L4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32L4xx/Include \
 -IDrivers/CMSIS/Include
 
+KERNEL_INC = \
+-I$(TOP_DIR)/kernel/core/include \
+-I$(TOP_DIR)/kernel/pm/include \
+-I$(TOP_DIR)/kernel/hal/include \
+-I$(TOP_DIR)/arch/arm/arm-v7m/common/include \
+-I$(TOP_DIR)/arch/arm/arm-v7m/cortex-m4/gcc \
+-I$(TOP_DIR)/board/Config/TOS_CONFIG
+C_INCLUDES += $(KERNEL_INC)
+
+CMSIS_INC = \
+-I$(TOP_DIR)/osal/cmsis_os
+C_INCLUDES += $(CMSIS_INC)
 
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
@@ -166,10 +191,16 @@ vpath %.c $(sort $(dir $(C_SOURCES)))
 OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 vpath %.s $(sort $(dir $(ASM_SOURCES)))
 
+OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES_S:.S=.o)))
+vpath %.S $(sort $(dir $(ASM_SOURCES_S)))
+
 $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR) 
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
 
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
+	$(AS) -c $(CFLAGS) $< -o $@
+
+$(BUILD_DIR)/%.o: %.S Makefile | $(BUILD_DIR)
 	$(AS) -c $(CFLAGS) $< -o $@
 
 $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
