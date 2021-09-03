@@ -26,7 +26,7 @@
         "_UNICODE"
       ],
       "intelliSenseMode": "gcc-arm",
-      "compilerPath": "C:\\GNU_ARM_TOOL\\7 2018-Q2-UPDATE\\BIN\\ARM-NONE-EABI-GCC.EXE",
+      "compilerPath": "C:\\GNU_ARM_TOOL\\8 2018-Q4-MAJOR\\BIN\\ARM-NONE-EABI-GCC.EXE",
       "compilerArgs": [
         "-mcpu=cortex-m4",
         "-mthumb",

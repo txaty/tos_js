@@ -23,7 +23,7 @@
 #include "stm32l4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "tos_k.h"
+// #include "tos_k.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -189,13 +189,12 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
-  HAL_IncTick();
-  if (tos_knl_is_running())
-  {
-    tos_knl_irq_enter();
-    tos_tick_handler();
-    tos_knl_irq_leave();
-  }
+  // if (tos_knl_is_running())
+  // {
+  //   tos_knl_irq_enter();
+  //   tos_tick_handler();
+  //   tos_knl_irq_leave();
+  // }
   /* USER CODE END SysTick_IRQn 1 */
 }
 

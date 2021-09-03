@@ -24,7 +24,12 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "cmsis_os.h"
+// #include "cmsis_os.h"
+// #include "js_app.h"
+// #include "util.h"
+#include "elk.h"
+#include <string.h>
+#include "util.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -38,41 +43,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-//task1
-#define TASK1_STK_SIZE 512
-void task1(void *pdata);
-osThreadDef(task1, osPriorityNormal, 1, TASK1_STK_SIZE);
 
-//task2
-#define TASK2_STK_SIZE 512
-void task2(void *pdata);
-osThreadDef(task2, osPriorityNormal, 1, TASK2_STK_SIZE);
-
-void task1(void *pdata)
-{
-  int count = 1;
-  while (1)
-  {
-    printf("\r\nHello world!\r\n###This is task1 ,count is %d \r\n", count++);
-    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-    osDelay(2000);
-  }
-}
-void task2(void *pdata)
-{
-  int count = 1;
-  while (1)
-  {
-    printf("\r\nHello TencentOS !\r\n***This is task2 ,count is %d \r\n", count++);
-    osDelay(1000);
-  }
-}
-
-int _write(int fd, char *ptr, int len)
-{
-  (void)HAL_UART_Transmit(&huart2, (uint8_t *)ptr, len, 0xFFFF);
-  return len;
-}
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -120,18 +91,26 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USART2_UART_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  osKernelInitialize();                  //TOS Tiny kernel initialize
-  osThreadCreate(osThread(task1), NULL); // Create task1
-  osThreadCreate(osThread(task2), NULL); // Create task2
-  osKernelStart();                       //Start TOS Tiny
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
   while (1)
   {
+    static char mem[400];
+    struct js *js = js_create(mem, sizeof(mem)); // Create JS instance
+    HAL_Delay(1000);
+    // HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+    jsval_t v = js_eval(js, "let a = 1 + 3 * 3.5; a", ~0); // Execute JS code
+    printf("result: %s\n", js_str(js, v));
+    // double test = 100.0;
+    // printf("check: %g\n", test);
+    // sprintf(res, "result: %d \r\n", strcmp(js_str(js, v), "7"));
+    // printf("Result: %d \r\n", res);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -184,8 +163,8 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2;
-  PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1;
+  PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
