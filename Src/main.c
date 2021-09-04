@@ -24,11 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-// #include "cmsis_os.h"
-// #include "js_app.h"
-// #include "util.h"
-#include "elk.h"
-#include <string.h>
+#include "t_js.h"
 #include "util.h"
 /* USER CODE END Includes */
 
@@ -98,19 +94,14 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
   while (1)
   {
     static char mem[400];
     struct js *js = js_create(mem, sizeof(mem)); // Create JS instance
     HAL_Delay(1000);
-    // HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
     jsval_t v = js_eval(js, "let a = 1 + 3 * 3.5; a", ~0); // Execute JS code
     printf("result: %s\n", js_str(js, v));
-    // double test = 100.0;
-    // printf("check: %g\n", test);
-    // sprintf(res, "result: %d \r\n", strcmp(js_str(js, v), "7"));
-    // printf("Result: %d \r\n", res);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

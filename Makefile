@@ -22,7 +22,7 @@ TARGET = tos_js
 # debug build?
 DEBUG = 0
 # optimization
-OPT = -Og
+OPT = -O3
 
 TOP_DIR = ../
 #######################################
@@ -76,13 +76,12 @@ CMSIS_SRC =  \
 ${wildcard $(TOP_DIR)/osal/cmsis_os/*.c}
 C_SOURCES += $(CMSIS_SRC)
 
-ELK_SRC = \
-Elk/elk.c
-C_SOURCES += $(ELK_SRC)
+JS_SRC = \
+Js/engine/t_js.c 
+C_SOURCES += $(JS_SRC)
 
 USER_SRC = \
-Inc/util.c \
-Inc/js_app.c 
+Inc/util.c
 C_SOURCES += $(USER_SRC)
 
 # ASM sources
@@ -161,9 +160,9 @@ CMSIS_INC = \
 -I$(TOP_DIR)/osal/cmsis_os
 C_INCLUDES += $(CMSIS_INC)
 
-ELK_INC = \
--IElk
-C_INCLUDES += $(ELK_INC)
+JS_INC = \
+-IJs/engine
+C_INCLUDES += $(JS_INC)
 
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
