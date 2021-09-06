@@ -1,20 +1,42 @@
 {
-  "configurations": [
-    {
-      "name": "STM32",
-      "includePath": [
-        "Drivers/CMSIS/Device/ST/STM32L4xx/Include",
-        "Drivers/CMSIS/Include",
-        "Drivers/STM32L4xx_HAL_Driver/Inc",
-        "Drivers/STM32L4xx_HAL_Driver/Inc/Legacy",
-        "Inc"
-      ],
-      "defines": [
-        "STM32L431xx",
-        "USE_HAL_DRIVER"
-      ],
-      "compilerPath": "C:\\GNU_ARM_TOOL\\7 2018-Q2-UPDATE\\BIN\\ARM-NONE-EABI-GCC.EXE"
-    }
-  ],
-  "version": 4
+    "configurations": [
+        {
+            "name": "STM32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "../arch/arm/arm-v7m/common/include",
+                "../arch/arm/arm-v7m/cortex-m4/gcc",
+                "../board/Config/TOS_CONFIG",
+                "../kernel/core/include",
+                "../kernel/hal/include",
+                "../kernel/pm/include",
+                "../osal/cmsis_os",
+                "Config/TOS_CONFIG",
+                "Drivers/CMSIS/Device/ST/STM32L4xx/Include",
+                "Drivers/CMSIS/Include",
+                "Drivers/STM32L4xx_HAL_Driver/Inc",
+                "Drivers/STM32L4xx_HAL_Driver/Inc/Legacy",
+                "Inc",
+                "${workspaceFolder}/Js/engine"
+            ],
+            "defines": [
+                "STM32L431xx",
+                "UNICODE",
+                "USE_HAL_DRIVER",
+                "_DEBUG",
+                "_UNICODE"
+            ],
+            "intelliSenseMode": "gcc-arm",
+            "compilerPath": "C:\\GNU_ARM_TOOL\\8 2018-Q4-MAJOR\\BIN\\ARM-NONE-EABI-GCC.EXE",
+            "compilerArgs": [
+                "-mcpu=cortex-m4",
+                "-mthumb",
+                "-mfpu=fpv4-sp-d16",
+                "-mfloat-abi=hard"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
 }
