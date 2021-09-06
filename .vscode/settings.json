@@ -85,6 +85,7 @@
         "js_parser.h": "c",
         "js_mem.h": "c",
         "js_value_size.h": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "js_app1.h": "c"
     }
 }

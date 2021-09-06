@@ -78,6 +78,7 @@ C_SOURCES += $(CMSIS_SRC)
 
 JS_SRC = \
 ${wildcard Js/engine/core/*.c} \
+${wildcard Js/engine/driver/*.c} \
 ${wildcard Js/engine/debug/*.c} \
 ${wildcard Js/engine/*.c}
 C_SOURCES += $(JS_SRC)
@@ -165,7 +166,9 @@ C_INCLUDES += $(CMSIS_INC)
 JS_INC = \
 -IJs/engine \
 -IJs/engine/core/include \
--IJs/engine/debug
+-IJs/engine/debug \
+-IJs/engine/driver \
+-IJs/apps 
 C_INCLUDES += $(JS_INC)
 
 # compile gcc flags

@@ -26,6 +26,8 @@
 /* USER CODE BEGIN Includes */
 #include "js.h"
 #include "util.h"
+// #include "js_app_calculation.h"
+#include "js_app_led_control.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -95,15 +97,14 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   // static char mem[400];
-  char mem[400];
-  JS *js = js_create(mem, sizeof(mem)); // Create JS instance
+
   while (1)
   {
-    HAL_Delay(1000);
-    // HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-    jsval_t v = js_eval(js, "1 + 3 * 3.5", ~0); // Execute JS code
+    char mem[400];
+    JS *js = js_create(mem, sizeof(mem)); // Create JS instance
+    js_driver_init(js);                   // Initialize JS driver
+    jsval_t v = js_eval(js, js_app_led_control, ~0); // Execute JS code
     printf("result: %s\n", js_str(js, v));
-    // JS_DUMP(js);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
