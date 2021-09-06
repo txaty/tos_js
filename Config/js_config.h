@@ -6,4 +6,4 @@
 
 #define JS_CFG_32_BIT 0u
 
-#define JS_CFG_MEM_SIZE 256u
+#define JS_CFG_MEM_SIZE 1024u

@@ -24,10 +24,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "js.h"
+#include "tos_k.h"
 #include "util.h"
-// #include "js_app_calculation.h"
-#include "js_app_led_control.h"
+#include "task.h"
+#include "js.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -91,22 +91,21 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  tos_knl_init();
+  tos_mutex_create(&mutex_js_engine);
+  tos_task_create(&k_js_exec, "js_exec", task_js_exec, NULL,
+                  2, stk_js_exec, TASK_SIZE_JS_EXEC, 0);
+  // tos_task_create(&k_toggle_led, "toggle_led", task_toggle_led, NULL,
+  //                 2, stk_toggle_led, TASK_SIZE_TOGGLE_LED, 0);
+  tos_knl_start();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  // static char mem[400];
 
   while (1)
   {
-    char mem[400];
-    JS *js = js_create(mem, sizeof(mem)); // Create JS instance
-    js_driver_init(js);                   // Initialize JS driver
-    jsval_t v = js_eval(js, js_app_led_control, ~0); // Execute JS code
-    printf("result: %s\n", js_str(js, v));
     /* USER CODE END WHILE */
-
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

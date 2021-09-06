@@ -84,7 +84,8 @@ ${wildcard Js/engine/*.c}
 C_SOURCES += $(JS_SRC)
 
 USER_SRC = \
-Inc/util.c
+Inc/util.c \
+Inc/task.c
 C_SOURCES += $(USER_SRC)
 
 # ASM sources
@@ -168,7 +169,7 @@ JS_INC = \
 -IJs/engine/core/include \
 -IJs/engine/debug \
 -IJs/engine/driver \
--IJs/apps 
+-IJs/apps/headers 
 C_INCLUDES += $(JS_INC)
 
 # compile gcc flags
