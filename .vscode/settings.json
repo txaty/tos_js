@@ -71,6 +71,20 @@
         "cstdio": "cpp",
         "js_app.h": "c",
         "elk.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "js.h": "c",
+        "inttypes.h": "c",
+        "math.h": "c",
+        "stdarg.h": "c",
+        "stdbool.h": "c",
+        "stdlib.h": "c",
+        "js_err.h": "c",
+        "string.h": "c",
+        "js_debug.h": "c",
+        "cmath": "c",
+        "js_parser.h": "c",
+        "js_mem.h": "c",
+        "js_value_size.h": "c",
+        "cstdlib": "c"
     }
 }

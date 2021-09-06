@@ -77,7 +77,9 @@ ${wildcard $(TOP_DIR)/osal/cmsis_os/*.c}
 C_SOURCES += $(CMSIS_SRC)
 
 JS_SRC = \
-Js/engine/t_js.c 
+${wildcard Js/engine/core/*.c} \
+${wildcard Js/engine/debug/*.c} \
+${wildcard Js/engine/*.c}
 C_SOURCES += $(JS_SRC)
 
 USER_SRC = \
@@ -153,7 +155,7 @@ KERNEL_INC = \
 -I$(TOP_DIR)/kernel/hal/include \
 -I$(TOP_DIR)/arch/arm/arm-v7m/common/include \
 -I$(TOP_DIR)/arch/arm/arm-v7m/cortex-m4/gcc \
--I$(TOP_DIR)/board/Config/TOS_CONFIG
+-I$(TOP_DIR)/board/Config
 C_INCLUDES += $(KERNEL_INC)
 
 CMSIS_INC = \
@@ -161,7 +163,9 @@ CMSIS_INC = \
 C_INCLUDES += $(CMSIS_INC)
 
 JS_INC = \
--IJs/engine
+-IJs/engine \
+-IJs/engine/core/include \
+-IJs/engine/debug
 C_INCLUDES += $(JS_INC)
 
 # compile gcc flags
