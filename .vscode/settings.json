@@ -88,6 +88,7 @@
         "js_value_size.h": "c",
         "cstdlib": "c",
         "js_app1.h": "c",
-        "stm32l4xx_it.h": "c"
+        "stm32l4xx_it.h": "c",
+        "sal_module_wrapper.h": "c"
     }
 }

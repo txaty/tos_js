@@ -100,7 +100,7 @@ int main(void)
   // // tos_task_create(&k_toggle_led, "toggle_led", task_toggle_led, NULL,
   // //                 2, stk_toggle_led, TASK_SIZE_TOGGLE_LED, 0);
   tos_task_create_dyn(&k_wifi_connect, "wifi_connect", task_wifi_connect, NULL,
-                      4, WIFI_TEST_CONNECT_SIZE, 0);
+                      4, TASK_WIFI_CONNECT_SIZE, 0);
   tos_knl_start();
   /* USER CODE END 2 */
 
