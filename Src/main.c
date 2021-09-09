@@ -94,13 +94,8 @@ int main(void)
   MX_LPUART1_UART_Init();
   /* USER CODE BEGIN 2 */
   tos_knl_init();
-  // tos_mutex_create(&mutex_js_engine);
-  // tos_task_create(&k_js_exec, "js_exec", task_js_exec, NULL,
-  //                 2, stk_js_exec, TASK_SIZE_JS_EXEC, 0);
-  // // tos_task_create(&k_toggle_led, "toggle_led", task_toggle_led, NULL,
-  // //                 2, stk_toggle_led, TASK_SIZE_TOGGLE_LED, 0);
   tos_task_create_dyn(&k_wifi_connect, "wifi_connect", task_wifi_connect, NULL,
-                      4, TASK_WIFI_CONNECT_SIZE, 0);
+                      4, TASK_SIZE_WIFI_CONNECT, 0);
   tos_knl_start();
   /* USER CODE END 2 */
 

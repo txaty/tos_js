@@ -18,14 +18,14 @@ extern k_task_t k_toggle_led;
 void task_toggle_led(void *pdata);
 
 // Wifi connection
-#define TASK_WIFI_CONNECT_SIZE 4096
+#define TASK_SIZE_WIFI_CONNECT 4096
 extern k_task_t *k_wifi_connect;
 extern char *wifi_ssid;
 extern char *wifi_pwd;
 void task_wifi_connect(void *pdata);
 
 // JS server
-#define TASK_JS_SERVER_SIZE 4096
+#define TASK_SIZE_JS_SERVER 4096
 extern k_task_t *k_js_server;
 extern char *server_ip;
 extern char *server_port;

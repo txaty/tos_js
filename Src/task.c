@@ -55,7 +55,7 @@ void task_wifi_connect(void *pdata)
     {
       printf("AP joning success\n");
       tos_task_create_dyn(&k_js_server, "js_server", task_js_server, NULL,
-                          4, TASK_JS_SERVER_SIZE, 0);
+                          4, TASK_SIZE_JS_SERVER, 0);
       tos_task_destroy(NULL);
     }
   }
@@ -64,10 +64,15 @@ void task_wifi_connect(void *pdata)
 // JS server
 k_task_t *k_js_server;
 char *server_ip = "167.179.70.248";
-char *server_port = "4000";
+char *server_port = "4001";
 int tcp_socket_id = -1;
+char *js_prefix = "js_content:";
+char recv_buf[512];
+char js_script[512];
 void task_js_server(void *pdata)
 {
+  JS *js = js_create_static();
+  js_driver_init(js);
   printf("start tcp connection test\n");
   tcp_socket_id = tos_sal_module_connect(server_ip, server_port, TOS_SAL_PROTO_TCP);
   if (tcp_socket_id == -1)
@@ -77,12 +82,22 @@ void task_js_server(void *pdata)
   else
   {
     printf("TCP0 connect success! fd: %d\n", tcp_socket_id);
-    tos_sal_module_send(tcp_socket_id, (const void *)"This is TCP Test!\r\n", strlen("This is TCP Test!\r\n"));
-  }
-  tos_sleep_ms(1000);
-  tcp_socket_id = tos_sal_module_close(tcp_socket_id);
-  if (tcp_socket_id != -1)
-  {
-    printf("Close connection success!");
+    while (K_TRUE)
+    {
+      int recv_len = tos_sal_module_recv(tcp_socket_id, recv_buf, sizeof(recv_buf));
+      if (recv_len == 0)
+      {
+        continue;
+      }
+      if (strncmp(js_prefix, recv_buf, strlen(js_prefix)) != 0)
+      {
+        continue;
+      }
+      sprintf(js_script, "%.*s", recv_len - strlen(js_prefix) + 1, recv_buf + strlen(js_prefix));
+      printf("js_script: %s\n", js_script);
+      JS *js = js_create_static();
+      js_driver_init(js);
+      js_eval(js, js_script, ~0);
+    }
   }
 }
